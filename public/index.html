@@ -1,21 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sensor Data</title>
+    <style>
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        table caption {
+            font-size: 1.5em;
+            margin: .5em 0 .75em;
+        }
+
+        table tr {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: .35em;
+        }
+
+        table th,
+        table td {
+            padding: .625em;
+            text-align: center;
+        }
+
+        table th {
+            font-size: .85em;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                border: 0;
+            }
+
+            table caption {
+                font-size: 1.3em;
+            }
+
+            table thead {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+
+            table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: .625em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: right;
+            }
+
+            table td::before {
+                /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table td:last-child {
+                border-bottom: 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h2>Sensor Data from MySQL</h2>
-    <button onclick="requestSensorData()">Request Sensor Data</button>
-    <table border="1">
+    <table>
+        <caption>HPV Sensor Data</caption>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Temperature (°C)</th>
-                <th>Humidity (%)</th>
-                <th>Gas Level</th>
-                <th>Recorded At</th>
+                <th scope="col">ID</th>
+                <th scope="col">Temperature (°C)</th>
+                <th scope="col">Humidity (%)</th>
+                <th scope="col">Gas Level</th>
+                <th scope="col">Recorded At</th>
             </tr>
         </thead>
         <tbody id="data-table"></tbody>
@@ -28,17 +111,28 @@
 
             const tableBody = document.getElementById('data-table');
             tableBody.innerHTML = '';
-
+            let first = true;
             data.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.id}</td>
-                    <td>${row.temperature}</td>
-                    <td>${row.humidity}</td>
-                    <td>${row.gas}</td>
-                    <td>${new Date(row.recorded_at).toLocaleString()}</td>
-                `;
+                if (first) {
+                    tr.innerHTML = `
+                        <td data-label="ID">${row.id}</td>
+                        <td data-label="Temperature (°C)">${row.temperature}</td>
+                        <td data-label="Humidity (%)">${row.humidity}</td>
+                        <td data-label="Gas Level">${row.gas}</td>
+                        <td data-label="Recorded At">${new Date(row.recorded_at).toLocaleString()}</td>
+                    `;
+                } else {
+                    tr.innerHTML = `
+                        <td scope="row" data-label="ID">${row.id}</td>
+                        <td data-label="Temperature (°C)">${row.temperature}</td>
+                        <td data-label="Humidity (%)">${row.humidity}</td>
+                        <td data-label="Gas Level">${row.gas}</td>
+                        <td data-label="Recorded At">${new Date(row.recorded_at).toLocaleString()}</td>
+                    `;
+                }
                 tableBody.appendChild(tr);
+                first = false;
             });
         }
 
@@ -62,4 +156,5 @@
         }
     </script>
 </body>
+
 </html>
