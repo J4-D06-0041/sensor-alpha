@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data</title>
+</head>
+<body>
+    <h2>Sensor Data from MySQL</h2>
+    <button onclick="requestSensorData()">Request Sensor Data</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Temperature (°C)</th>
+                <th>Humidity (%)</th>
+                <th>Gas Level</th>
+                <th>Recorded At</th>
+            </tr>
+        </thead>
+        <tbody id="data-table"></tbody>
+    </table>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('http://localhost:3000/api/data');
+            const data = await response.json();
+
+            const tableBody = document.getElementById('data-table');
+            tableBody.innerHTML = '';
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.id}</td>
+                    <td>${row.temperature}</td>
+                    <td>${row.humidity}</td>
+                    <td>${row.gas}</td>
+                    <td>${new Date(row.recorded_at).toLocaleString()}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        fetchData();
+        setInterval(fetchData, 5000);
+
+        async function requestSensorData() {
+            const sensorId = "sensor_1"; // Change this to match actual sensor IDs
+            try {
+                const response = await fetch('/api/request-sensor-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sensor_id: sensorId })
+                });
+
+                const result = await response.json();
+                // alert(result.message); // Show confirmation message
+            } catch (error) {
+                console.error('Error requesting sensor data:', error);
+            }
+        }
+    </script>
+</body>
+</html>
