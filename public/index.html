@@ -215,7 +215,7 @@
             });
 
             // Fetch sensor status
-            const statusResponse = await fetch('http://localhost:3000/api/sensor-status');
+            const statusResponse = await fetch('https://sensor-alpha.onrender.com/api/sensor-status');
             const statusData = await statusResponse.json();
             console.log('statusData', statusData);
 
