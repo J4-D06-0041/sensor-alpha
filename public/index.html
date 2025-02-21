@@ -78,10 +78,6 @@
             }
 
             table td::before {
-                /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
                 content: attr(data-label);
                 float: left;
                 font-weight: bold;
@@ -92,10 +88,87 @@
                 border-bottom: 0;
             }
         }
+
+        .green-dot {
+            width: 10px;
+            /* Adjust size as needed */
+            height: 10px;
+            background-color: green;
+            border-radius: 50%;
+            /* Makes it a circle */
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1, 1);
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .ring-container {
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .circle {
+            width: 15px;
+            height: 15px;
+            background-color: #62bd19;
+            border-radius: 50%;
+            position: absolute;
+            top: 23px;
+            left: 23px;
+        }
+
+        .ringring {
+            border: 3px solid #62bd19;
+            -webkit-border-radius: 30px;
+            height: 25px;
+            width: 25px;
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            -webkit-animation: pulsate 1s ease-out;
+            -webkit-animation-iteration-count: infinite;
+            opacity: 0.0
+        }
+
+        @-webkit-keyframes pulsate {
+            0% {
+                -webkit-transform: scale(0.1, 0.1);
+                opacity: 0.0;
+            }
+
+            50% {
+                opacity: 1.0;
+            }
+
+            100% {
+                -webkit-transform: scale(1.2, 1.2);
+                opacity: 0.0;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div>
+        <div class="ring-container">
+            <div class="ringring"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+
     <table>
         <caption>HPV Sensor Data</caption>
         <thead>
@@ -140,26 +213,29 @@
                 tableBody.appendChild(tr);
                 first = false;
             });
+
+            // Fetch sensor status
+            const statusResponse = await fetch('http://localhost:3000/api/sensor-status');
+            const statusData = await statusResponse.json();
+            console.log('statusData', statusData);
+
+            // Check if valid sensor data exists
+            if (statusData && statusData.isValid !== undefined) {
+                const color = statusData.isValid ? 'green' : 'red';
+
+                // Update elements dynamically
+                document.querySelectorAll('.circle, .ringring, .green-dot').forEach(el => {
+                    el.style.backgroundColor = color;
+                });
+
+                // Update border color for the ringring element
+                const ringringDiv = document.querySelector('.ringring');
+                if (ringringDiv) ringringDiv.style.borderColor = color;
+            }
         }
 
         fetchData();
         setInterval(fetchData, 5000);
-
-        async function requestSensorData() {
-            const sensorId = "sensor_1"; // Change this to match actual sensor IDs
-            try {
-                const response = await fetch('/api/request-sensor-data', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sensor_id: sensorId })
-                });
-
-                const result = await response.json();
-                // alert(result.message); // Show confirmation message
-            } catch (error) {
-                console.error('Error requesting sensor data:', error);
-            }
-        }
     </script>
 </body>
 

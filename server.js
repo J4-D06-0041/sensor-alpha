@@ -43,6 +43,48 @@ app.post('/api/request-sensor-data', (req, res) => {
     });
 });
 
+app.post('/api/update-sensor-status', (req, res) => {
+    const { sensorID, status } = req.body;
+    const sql = `
+        INSERT INTO sensor_status (sensorID, status)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE status = VALUES(status), updated_at = CURRENT_TIMESTAMP;
+    `;
+
+    db.query(sql, [sensorID, status], (err, result) => {
+        if (err) return res.status(500).send(err);
+        res.send({ message: 'Sensor status updated successfully' });
+    });
+});
+
+app.get('/api/sensor-status', (req, res) => {
+    const { sensorID } = req.query;
+
+    let sql = `
+        SELECT *, 
+        CASE 
+            WHEN TIMESTAMPDIFF(SECOND, updated_at, NOW()) > 10 THEN false 
+            ELSE true 
+        END AS isValid
+        FROM sensor_status
+    `;
+
+    let params = [];
+
+    if (sensorID) {
+        sql += " WHERE sensorID = ? ORDER BY updated_at DESC LIMIT 1";
+        params.push(sensorID);
+    } else {
+        sql += " ORDER BY updated_at DESC";
+    }
+
+    db.query(sql, params, (err, results) => {
+        if (err) return res.status(500).send(err);
+
+        res.send(results.length > 0 ? results[0] : { message: 'No sensor data found', isValid: false });
+    });
+});
+
 app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on port 3000');
 });
