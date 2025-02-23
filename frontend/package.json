@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "server": "cd backend && npm start",
     "client": "cd frontend && npm run dev"
   },
