@@ -12,118 +12,66 @@ body {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(24, 1fr);
+    grid-template-columns: repeat(18, 1fr); /* 18 columns */
+    grid-template-rows: repeat(18, 1fr); /* 18 rows */
 }
 
-.box1 {
-    grid-column: span 10;
-    grid-row: span 2;
-    border: 1px solid black;
-    background-color: orange;
+.left_side_bar {
+    grid-column: span 3; /* Only 3 column */
+    grid-row: span 18; /* Occupy all 18 rows */
+    background-color: #33597f;
+    display: grid; /* Make it a grid */
+    grid-template-columns: 1fr; /* Only 1 column */
+    grid-template-rows: repeat(18, 1fr); /* Ensure 18 rows */
 }
 
-.box2 {
-    grid-column: span 2; /* Span 2 columns */
-    grid-row: span 2; /* Span 2 rows */
-    display: flex;
-    justify-content: flex-end; /* Align contents to the right */
-    align-items: center; /* Center vertically */
-    padding: 0 15px;
-    gap: 10px; /* Space between text and icon */
-    border: 1px solid black;
-    background-color: blue;
+.stage {
+    grid-column: 4 / span 15; /* Start at column 4 and take remaining columns */
+    grid-row: span 18; /* Occupy all 18 rows */
+    background-color: lightblue; /* Just for visualization */
 }
 
-.box3 {
-    grid-column: span 2; /* Box 3 still takes 2 columns */
-    grid-row: span 22; /* Adjust to fit the 3 items (2 rows each) */
-    display: grid;
-    grid-template-rows: repeat(22, 1fr); /* Each item takes 2 rows */
-    align-items: center; /* Vertically center content */
-    padding-left: 20px; /* Align to the left */
-    border: 1px solid black;
-    background-color: rgb(142, 255, 122);
+.company_logo {
+    grid-column: span 1; /* Occupy 1 column inside left_side_bar */
+    grid-row: span 2; /* Occupy 2 rows */
+    /* background-color: white; */
+    border: 1px solid black; /* Debugging border */
+    display: flex; /* Center the image */
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Ensure no overflow */
 }
 
-.box4 {
-    grid-column: span 10;
-    grid-row: span 22;
-    background-color: lightsalmon;
-    border: 1px solid black;
+.company_logo img {
+    width: 90%; /* Scale image within the box */
+    height: 90%; /* Ensure it fits within 2 rows */
+    object-fit: contain; /* Prevent stretching */
 }
 
-/* Mobile Layout: Stack Boxes */
-@media (max-width: 768px) {
-    .full_screen_box {
-        grid-template-columns: repeat(6, 1fr); /* Reduce to 6 columns */
-        grid-template-rows: auto; /* Adjust rows dynamically */
-    }
-
-    .box1 {
-        grid-column: span 6; /* Full width */
-        grid-row: span 2;
-    }
-
-    .box2 {
-        grid-column: span 6; /* Full width */
-        grid-row: span 2;
-    }
-
-    .box3 {
-        grid-column: span 6; /* Full width */
-        grid-row: span 11; /* Takes half of remaining space */
-    }
-
-    .box4 {
-        grid-column: span 6; /* Full width */
-        grid-row: span 11; /* Takes half of remaining space */
-    }
-}
-
-/* Extra Small Screens (Phones) */
-@media (max-width: 480px) {
-    .full_screen_box {
-        grid-template-columns: repeat(4, 1fr); /* Reduce to 4 columns */
-    }
-
-    .box1,
-    .box2,
-    .box3,
-    .box4 {
-        grid-column: span 4; /* Full width on small screens */
-    }
-}
-
-.logo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures the entire logo fits without cropping */
-    display: block;
-    text-align: left;
-}
-
-.welcomeText {
-    font-size: 1rem; /* Smaller font size */
-    color: black;
-}
-
-.hamburgerIcon {
-    font-size: 1.2rem; /* Reduce icon size */
-    color: black;
-    cursor: pointer;
-}
-
-.menuItem { /* Make each menu item span 2 rows */
+.company_name, .users_name, .sensors_name {
+    grid-column: span 1; /* 1 column inside left_side_bar */
+    grid-row: span 1; /* 1 row */
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.2rem;
-    color: black;
-    grid-row: span 2; /* Each item takes 2 rows */
+    justify-content: flex-start; /* Align content to the left */
+    gap: 8px; /* Space between icon and text */
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 60px; /* Adjust left padding */
+    border: 1px solid black; /* Debugging border */
+    cursor: pointer; /* Indicates interactivity */
+    width: 100%; /* Ensure it spans the entire column */
 }
 
-.menuIcon {
-    font-size: 1.5rem; /* Adjust icon size */
-    color: black;
+.company_name span, .users_name span, .sensors_name span {
+    text-decoration: none; /* Remove underline by default */
+    transition: text-decoration 0.2s ease-in-out;
+}
+
+.company_name:hover span, .users_name:hover span, .sensors_name:hover span {
+    text-decoration: underline; /* Show underline on hover */
+}
+
+.company_icon, .users_icon, .sensors_icon {
+    font-size: 20px; /* Adjust icon size */
 }
