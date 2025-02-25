@@ -12,39 +12,69 @@ body {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: repeat(18, 1fr); /* 18 columns */
-    grid-template-rows: repeat(18, 1fr); /* 18 rows */
+    grid-template-columns: repeat(18, 1fr);
+    /* 18 columns */
+    grid-template-rows: repeat(18, 1fr);
+    /* 18 rows */
+    padding: 10px;
 }
 
 .left_side_bar {
-    grid-column: span 3; /* Only 3 column */
-    grid-row: span 18; /* Occupy all 18 rows */
-    display: grid; /* Make it a grid */
-    grid-template-columns: 1fr; /* Only 1 column */
-    grid-template-rows: repeat(18, 1fr); /* Ensure 18 rows */
+    grid-column: span 3;
+    /* Only 3 column */
+    grid-row: span 18;
+    /* Occupy all 18 rows */
+    display: grid;
+    /* Make it a grid */
+    grid-template-columns: 1fr;
+    /* Only 1 column */
+    grid-template-rows: repeat(18, 1fr);
+    /* Ensure 18 rows */
+    /* background-color: #25B9BF; */
+    padding: 10px;
+    box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.2);
+    /* Adds a soft shadow on the right */
 }
 
 .stage {
     grid-column: 4 / span 15; /* Start at column 4 and take remaining columns */
     grid-row: span 18; /* Occupy all 18 rows */
+    background-color: lightgrey;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between cards */
+    min-height: 100vh; /* Ensures it can expand */
+    max-height: 100vh; /* Prevents overflowing beyond viewport */
+    padding: 10px; /* Adds some spacing */
 }
 
 .company_logo {
-    grid-column: span 1; /* Occupy 1 column inside left_side_bar */
-    grid-row: span 2; /* Occupy 2 rows */
-    display: flex; /* Center the image */
+    grid-column: span 1;
+    /* Occupy 1 column inside left_side_bar */
+    grid-row: span 2;
+    /* Occupy 2 rows */
+    display: flex;
+    /* Center the image */
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Ensure no overflow */
+    overflow: hidden;
+    /* Ensure no overflow */
 }
 
 .company_logo img {
-    width: 90%; /* Scale image within the box */
-    height: 90%; /* Ensure it fits within 2 rows */
-    object-fit: contain; /* Prevent stretching */
+    width: 90%;
+    /* Scale image within the box */
+    height: 90%;
+    /* Ensure it fits within 2 rows */
+    object-fit: contain;
+    /* Prevent stretching */
 }
 
-.company_name, .users_name, .sensors_name {
+.company_name,
+.users_name,
+.sensors_name {
     grid-column: span 1;
     grid-row: span 1;
     display: flex;
@@ -65,41 +95,57 @@ body {
 }
 
 /* Lift up and increase shadow on hover */
-.company_name:hover, .users_name:hover, .sensors_name:hover {
+.company_name:hover,
+.users_name:hover,
+.sensors_name:hover {
     transform: translateY(-5px);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Keep active state after clicking */
-.company_name.active, .users_name.active, .sensors_name.active {
-    text-decoration: underline; /* Keep underline */
+.company_name.active,
+.users_name.active,
+.sensors_name.active {
+    text-decoration: underline;
+    /* Keep underline */
     transform: translateY(-7px);
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 .left_side_choices {
-    grid-row: 3 / span 16; /* Start at row 4 and use all remaining rows */
+    grid-row: 3 / span 16;
+    /* Start at row 4 and use all remaining rows */
     display: flex;
     flex-direction: column;
     gap: 10px;
-    justify-content: flex-start; /* Align items to the top */
+    justify-content: flex-start;
+    /* Align items to the top */
     margin-top: 30px;
+    margin-left: 10px;
 }
 
 .company_container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    grid-template-rows: repeat(3, 1fr); /* 3 rows */
-    gap: 10px; /* Space between boxes */
-    width: 100%; /* Ensures it fills the stage */
-    height: 100%; /* Occupies full height */
-    padding: 20px; /* Adds spacing */
-    justify-items: center; /* Centers boxes horizontally */
-    align-items: center; /* Centers boxes vertically */
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columns */
+    grid-template-rows: repeat(3, 1fr);
+    /* 3 rows */
+    gap: 10px;
+    /* Space between boxes */
+    width: 100%;
+    /* Ensures it fills the stage */
+    height: 100%;
+    /* Occupies full height */
+    padding: 20px;
+    /* Adds spacing */
+    justify-items: center;
+    /* Centers boxes horizontally */
+    align-items: center;
+    /* Centers boxes vertically */
 }
 
-.company_box {
-    background-color: lightgray;
+/* .company_box {
+    background-color: lightskyblue;
     border: 2px solid black;
     padding: 20px;
     display: flex;
@@ -114,50 +160,224 @@ body {
     overflow: hidden;
     position: relative;
     color: black;
-}
+} */
 
 /* Ensure child elements also have black text */
-.company_box strong,
+/* .company_box strong,
 .company_box p,
 .company_box .company_details {
     color: black;
-}
+} */
 
-.company_box:hover {
-    transform: translateY(0); /* No longer lifts up */
+/* .company_box:hover {
+    transform: translateY(0);  No longer lifts up 
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
     width: 110%;
     height: 120%;
     background-color: white;
-    z-index: 10; /* Ensures it stays above other elements */
-    transform-origin: top; /* Expands downward */
-}
+    z-index: 10;  Ensures it stays above other elements 
+    transform-origin: top;  Expands downward 
+} */
 
-.company_details {
-    display: none;  /* Initially hidden */
+/* .company_details {
+    display: none;   Initially hidden 
     font-size: 14px;
     margin-top: 10px;
     text-align: center;
-    opacity: 0;  /* Start invisible */
+    opacity: 0;   Start invisible 
     transition: opacity 0.3s ease-in-out;
-}
+} */
 
 /* Show details when hovered */
-.company_box:hover .company_details {
+/* .company_box:hover .company_details {
     display: block;
-    opacity: 1;  /* Smooth fade-in effect */
-}
+    opacity: 1;   Smooth fade-in effect 
+} */
 
-.company_box img {
-    width: 160px; /* Increase width */
-    height: 160px; /* Increase height */
-    object-fit: contain; /* Ensure it does not stretch */
-    margin-bottom: 10px; /* Space between logo and text */
+/* .company_box img {
+    width: 160px;  Increase width 
+    height: 160px;  Increase height 
+    object-fit: contain;  Ensure it does not stretch 
+    margin-bottom: 10px;  Space between logo and text 
     transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
-}
+} */
 
 /* Make logo even bigger on hover */
-.company_box:hover img {
+/* .company_box:hover img {
     width: 180px;
     height: 180px;
+} */
+
+.card {
+    flex-shrink: 0; /* Prevents shrinking */
+    width: 100%; /* Ensures the card takes full width */
+    max-width: 400px; /* Adjust as needed */
+    height: 250px; /* Adjust the height */
+}
+
+.card_inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.999s;
+}
+
+.card:hover .card_inner {
+    transform: rotateY(180deg);
+}
+
+.card_front,
+.card_back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.card_front {
+    background-color: #6A2C70;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    justify-content: flex-start;
+    /* Align items to the top */
+    border: 10px solid #6A2C70;
+    border-radius: 10px;
+    font-size: 24px;
+    text-align: center;
+    /* padding: 20px; */
+    /* Add some padding for spacing */
+    gap: 10px;
+    /* Adds space between the image and text */
+}
+
+.card_front img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    margin-bottom: 10px;
+    /* Space between image and text */
+}
+
+.card_back {
+    background-color: #F08A5D;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+    /* Center text */
+    border: 10px solid #F08A5D;
+    border-radius: 10px;
+    font-size: 24px;
+    transform: rotateY(180deg);
+    text-align: left;
+    /* Ensure text is centered */
+    padding: 10px;
+    /* Add spacing */
+    line-height: 1.5;
+    /* Adjust line height for better spacing */
+}
+
+.card_back_address {
+    text-align: center;
+    font-weight: bold;
+}
+
+.card_back_description {
+    text-align: center;
+    font-size: smaller;
+    margin-top: 4px;
+    /* Adjust the spacing as needed */
+}
+
+.empty_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #f0f0f0; Light gray background */
+    /* border: 2px dashed black; Dashed border to indicate add */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.empty_box:hover {
+    /* background-color: #e0e0e0; Darker gray on hover */
+}
+
+.add_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add_icon img {
+    width: 80px;
+    /* Adjust size */
+    height: auto;
+    transform: scale(0.8);
+    /* Shrinks to 80% of original size */
+}
+
+.form_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.company_form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+}
+
+.company_form h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: black;
+}
+
+.company_form input,
+.company_form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form_buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form_buttons button:first-child {
+    background: #28a745;
+    color: white;
+}
+
+.form_buttons button:last-child {
+    background: #dc3545;
+    color: white;
 }
