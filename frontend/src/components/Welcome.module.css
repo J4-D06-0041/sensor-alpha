@@ -19,7 +19,6 @@ body {
 .left_side_bar {
     grid-column: span 3; /* Only 3 column */
     grid-row: span 18; /* Occupy all 18 rows */
-    background-color: #33597f;
     display: grid; /* Make it a grid */
     grid-template-columns: 1fr; /* Only 1 column */
     grid-template-rows: repeat(18, 1fr); /* Ensure 18 rows */
@@ -28,14 +27,11 @@ body {
 .stage {
     grid-column: 4 / span 15; /* Start at column 4 and take remaining columns */
     grid-row: span 18; /* Occupy all 18 rows */
-    background-color: lightblue; /* Just for visualization */
 }
 
 .company_logo {
     grid-column: span 1; /* Occupy 1 column inside left_side_bar */
     grid-row: span 2; /* Occupy 2 rows */
-    /* background-color: white; */
-    border: 1px solid black; /* Debugging border */
     display: flex; /* Center the image */
     align-items: center;
     justify-content: center;
@@ -49,29 +45,119 @@ body {
 }
 
 .company_name, .users_name, .sensors_name {
-    grid-column: span 1; /* 1 column inside left_side_bar */
-    grid-row: span 1; /* 1 row */
+    grid-column: span 1;
+    grid-row: span 1;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Align content to the left */
-    gap: 8px; /* Space between icon and text */
-    font-size: 16px;
+    justify-content: flex-start;
+    gap: 8px;
+    font-size: 25px;
     font-weight: bold;
-    padding-left: 60px; /* Adjust left padding */
-    border: 1px solid black; /* Debugging border */
-    cursor: pointer; /* Indicates interactivity */
-    width: 100%; /* Ensure it spans the entire column */
+    padding-left: 40px;
+    cursor: pointer;
+    width: 90%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    color: black;
+    padding: 10px 20px;
 }
 
-.company_name span, .users_name span, .sensors_name span {
-    text-decoration: none; /* Remove underline by default */
-    transition: text-decoration 0.2s ease-in-out;
+/* Lift up and increase shadow on hover */
+.company_name:hover, .users_name:hover, .sensors_name:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.company_name:hover span, .users_name:hover span, .sensors_name:hover span {
-    text-decoration: underline; /* Show underline on hover */
+/* Keep active state after clicking */
+.company_name.active, .users_name.active, .sensors_name.active {
+    text-decoration: underline; /* Keep underline */
+    transform: translateY(-7px);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.4);
 }
 
-.company_icon, .users_icon, .sensors_icon {
-    font-size: 20px; /* Adjust icon size */
+.left_side_choices {
+    grid-row: 3 / span 16; /* Start at row 4 and use all remaining rows */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start; /* Align items to the top */
+    margin-top: 30px;
+}
+
+.company_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows */
+    gap: 10px; /* Space between boxes */
+    width: 100%; /* Ensures it fills the stage */
+    height: 100%; /* Occupies full height */
+    padding: 20px; /* Adds spacing */
+    justify-items: center; /* Centers boxes horizontally */
+    align-items: center; /* Centers boxes vertically */
+}
+
+.company_box {
+    background-color: lightgray;
+    border: 2px solid black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, height 0.3s ease-in-out, width 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+    color: black;
+}
+
+/* Ensure child elements also have black text */
+.company_box strong,
+.company_box p,
+.company_box .company_details {
+    color: black;
+}
+
+.company_box:hover {
+    transform: translateY(0); /* No longer lifts up */
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
+    width: 110%;
+    height: 120%;
+    background-color: white;
+    z-index: 10; /* Ensures it stays above other elements */
+    transform-origin: top; /* Expands downward */
+}
+
+.company_details {
+    display: none;  /* Initially hidden */
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    opacity: 0;  /* Start invisible */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Show details when hovered */
+.company_box:hover .company_details {
+    display: block;
+    opacity: 1;  /* Smooth fade-in effect */
+}
+
+.company_box img {
+    width: 160px; /* Increase width */
+    height: 160px; /* Increase height */
+    object-fit: contain; /* Ensure it does not stretch */
+    margin-bottom: 10px; /* Space between logo and text */
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+/* Make logo even bigger on hover */
+.company_box:hover img {
+    width: 180px;
+    height: 180px;
 }
